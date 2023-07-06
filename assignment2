@@ -1,0 +1,82 @@
+public class Driver {
+ private String carModel;
+ private double rating;
+ private double distanceFromCustomer;
+ private String predestination;
+
+ public Driver(String carModel, double rating, double distanceFromCustomer, String predestination) {
+     this.carModel = carModel;
+     this.rating = rating;
+     this.distanceFromCustomer = distanceFromCustomer;
+     this.predestination = predestination;
+ }
+
+ public String getCarModel() {
+     return carModel;
+ }
+
+ public double getRating() {
+     return rating;
+ }
+
+ public double getDistanceFromCustomer() {
+     return distanceFromCustomer;
+ }
+
+ public String getPredestination() {
+     return predestination;
+ }
+
+class RideBooking {
+ private double rideDistance;
+ private String requestedCar;
+ private Driver selectedDriver;
+
+ public RideBooking(double rideDistance, String requestedCar) {
+     this.rideDistance = rideDistance;
+     this.requestedCar = requestedCar;
+ }
+
+ public void bookCab(Driver[] drivers) {
+     for (Driver driver : drivers) {
+         if (driver.getCarModel().equalsIgnoreCase(requestedCar) &&
+                 driver.getRating() >= 4 && isPredestinationSupported(driver)) {
+             selectedDriver = driver;
+             break;
+         }
+     }
+
+     if (selectedDriver != null) {
+         double totalCharge = rideDistance * 8;
+         System.out.println("Driver " + selectedDriver.getCarModel() +
+                 " will get you to the destination.");
+         System.out.println("Your charge will be Rs " + totalCharge);
+     } else {
+         System.out.println("No suitable driver found for your car request.");
+     }
+ }
+
+ private boolean isPredestinationSupported(Driver driver) {
+     if (driver.getPredestination().contains("Delhi")) {
+         return true;
+     }
+     return false;
+ }
+
+
+ public static void main(String[] args) {
+     Driver[] drivers = {
+             new Driver("Sedan", 4, 500, "Gurgaon, Noida, Delhi"),
+             new Driver("Hatchback", 4.3, 1000, "Gurgaon"),
+             new Driver("5-Seater", 4.8, 200, "Noida"),
+             new Driver("Sedan", 4.1, 700, "Noida"),
+             new Driver("Hatchback", 4.7, 430, "Delhi")
+     };
+
+     
+     RideBooking rideBooking = new RideBooking(60, "5-Seater");
+
+     rideBooking.bookCab(drivers);
+ }
+}
+}
